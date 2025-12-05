@@ -3,12 +3,12 @@ import sqlite3
 class Database:
     DB_NAME = "database.db"
 
-    @method
+    @staticmethod
     def connect():
         """Connect the SQLite database."""
         return sqlite3.connect(Database.DB_NAME)
 
-    @method
+    @staticmethod
     def initialise():
         """Create tables if they don't exist"""
         conn = Database.connect()

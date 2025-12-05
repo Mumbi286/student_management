@@ -1,75 +1,74 @@
+import click
 from database import Database
 from student import Student
 
-def list():
-    print("STUDENT MANAGEMENT SYSTEM")
-    print("Admit a student")
-    print("View a student")
-    print("Update Student")
-    print("Delete Student")
-    print("Exist")
+Database.initialise()
 
-def main():
-    # Intialise database and table
-    Database.initialise()
+@click.group()
+def cli():
+    """Student Management System"""
+    pass
+# Adds a new student
+@cli.command()
+@click.option("--name", prompt="Name")
+@click.option("--course", prompt="Course")
+@click.option("--mobile", prompt = "Mobile")
 
-    while True:
-        menu()
-        choice = input("Enter choice: ").strip()
+def add(name, course,mobile):
+     try:
+        s = Student()
+        s.set_name(input("Name: "))
+        s.set_course(input("Course: "))
+        s.set_mobile(input("Mobile: "))
+        s.save()
+        print("Added Successfully!")
+     except Expection as e:
+       click.echo(f"Error: {e}")
 
-        if choice == "1": #Adds a student
-            try:
-                s = Student()
-                s.set_name(input("Name: "))
-                s.set_course(input("Course: "))
-                s.set_mobile(input("Mobile: "))
-                s.save()
-                print("Added Successfully!")
-            except ValueError as ve:
-                print(f"Invalid Input: {ve}")
-            except RuntimeError as re:
-                print(f"Error: {re}")
+# view students 
+@cli.command()
+def view(): 
+    """View Students """
+    try:
+        rows = Student.get_all()
+        if not rows:
+            click.echo("Student not available.")
+            return
 
-        elif choice == "2": #View Students
-            try:
-                rows = Student.get_all()
-                if not rows:
-                    if not rows:
-                        print("Invalid!")
-                else: 
-                    print("ID | Name | Course | Mobile")
-                    print("-"*30)
-                    for r in rows:
-                    print(f"{r[0]} | {r[1]} | {r[2]} |{r[3]}")
-            except RuntimeError as re:
-                print(f"Error: {re}")
-        
-        elif choice == "3": #Update Student 
-            try:
-                student_id = input("Student Updated: ")
-                name = input("New name: ")
-                course = input("New course: ")
-                mobile = input("New mobile: ")
-                Student.update(student_id, name, course, mobile)
-                print("Update Successful!")
-            except ValueError as ve:
-                 print(f"Invalid Input: {ve}")
-                 except RuntimeError as re:
-                print(f"Error: {re}")
+        click.echo("ID | Name | Course | Mobile")
+        for r in rows:
+            click.echo(f"{r[0]} | {r[1]} | {r[2]} |{r[3]}")
+        except Expection as e:
+            click.echo(f"Error: {e}")
 
-        elif choice == "4": #Delete Student
-           try:
-                student_id = input("Student Updated: ")
-                confirm = input("Are you sure ? (y/n):").strip().lower()
-                if confirm == "y":
-                    Student.delete(student_id)
-                    print("Deleted successful!")
-                else:
-                    print("Cancelled")
-            except ValueError as ve:
-                 print(f"Invalid Input: {ve}")
-                 except RuntimeError as re:
-                print(f"Error: {re}")
+#update student   
+@cli.command()
+@click.option("--id", propmt = "Student ID")
+@click.option("--name", prompt="New Name")
+@click.option("--course", prompt="New Course")
+@click.option("--mobile", prompt="New Mobile") 
+def update(id, name, course, mobile):
+    """Update student details"""
+    try:
+       student_id = input("Student Updated: ")
+        click.echo("Updated Successful!")
+
+    expect Expection as e:
+        click.echo(f"Error: {e}")
+
+# DELETE STUDENT
+@click.command()
+@click.option("--id", prompt="Student ID")
+def delete(id):
+    """Delete a student"""
+    try:
+        student.delete(id)
+        click.echo("Deleted succeful!")
+    except Expection as e:
+        click.echo(f"Error: {e}")
+
+if __name__ ="__main__":
+    cli()
 
             
 
