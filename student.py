@@ -6,7 +6,7 @@ class Student:
         self._course = course
         self._mobile = mobile
 
-    @getters
+    @property
     def name(self):
         return self_name
     def course(self):
@@ -46,6 +46,7 @@ class Student:
                 finally:
                     conn.close()
 
+#  reads
     def get_all():
         try:
             conn = Database.connect()
@@ -97,4 +98,5 @@ class Student:
             raise RuntimeError(f"Error: {e}")
         finally:
             conn.close()
+
     

@@ -9,3 +9,4 @@ This is a python based programmed projrct that is mostly used in the school inst
 - Installs the dependencies
 2. pipenv shell
 - To access the virtual environment 
+3. pip install click

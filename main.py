@@ -1,41 +1,78 @@
-import sys
-from student import (
-    add_student, view_student, search_student, update_student, delete_student
-)
+from database import Database
+from student import Student
 
-def includes():
-    print("Student Management System")
-    print("Admit new Student")
-    print("View the student information")
-    print("Search a Student")
-    print("Update if there is a new student")
-    print("Delete a Student")
+def list():
+    print("STUDENT MANAGEMENT SYSTEM")
+    print("Admit a student")
+    print("View a student")
+    print("Update Student")
+    print("Delete Student")
+    print("Exist")
 
-def add_student_record():
-    print("Admit new sStudent")
-    name = input("Name: ")
-    course = input("Course: ")
-    mobile = input("Mobile: ")
-    add_student(name, course, mobile)
-    print("Added successfully")
+def main():
+    # Intialise database and table
+    Database.initialise()
 
-def view_student_record():
-    print("List of students")
-    rows = view_student()
-    if not rows:
-        print("Student not found")
-        return
-    for r in rows:
-        print(f"{r[0] r{1} r{2} r{3}}")
+    while True:
+        menu()
+        choice = input("Enter choice: ").strip()
 
-def search_student_record():
-    print("Search a Student")
-    keyword = input("Enter name/course/mobile: ")
-    rows = search_student(keyword)
-    if not rows:
-        print("Result not found!")
-    for r in rows:
-        print(f"{r[0] r[1] r[2] r[3]}")
+        if choice == "1": #Adds a student
+            try:
+                s = Student()
+                s.set_name(input("Name: "))
+                s.set_course(input("Course: "))
+                s.set_mobile(input("Mobile: "))
+                s.save()
+                print("Added Successfully!")
+            except ValueError as ve:
+                print(f"Invalid Input: {ve}")
+            except RuntimeError as re:
+                print(f"Error: {re}")
 
-def update_student_record():
-    print
+        elif choice == "2": #View Students
+            try:
+                rows = Student.get_all()
+                if not rows:
+                    if not rows:
+                        print("Invalid!")
+                else: 
+                    print("ID | Name | Course | Mobile")
+                    print("-"*30)
+                    for r in rows:
+                    print(f"{r[0]} | {r[1]} | {r[2]} |{r[3]}")
+            except RuntimeError as re:
+                print(f"Error: {re}")
+        
+        elif choice == "3": #Update Student 
+            try:
+                student_id = input("Student Updated: ")
+                name = input("New name: ")
+                course = input("New course: ")
+                mobile = input("New mobile: ")
+                Student.update(student_id, name, course, mobile)
+                print("Update Successful!")
+            except ValueError as ve:
+                 print(f"Invalid Input: {ve}")
+                 except RuntimeError as re:
+                print(f"Error: {re}")
+
+        elif choice == "4": #Delete Student
+           try:
+                student_id = input("Student Updated: ")
+                confirm = input("Are you sure ? (y/n):").strip().lower()
+                if confirm == "y":
+                    Student.delete(student_id)
+                    print("Deleted successful!")
+                else:
+                    print("Cancelled")
+            except ValueError as ve:
+                 print(f"Invalid Input: {ve}")
+                 except RuntimeError as re:
+                print(f"Error: {re}")
+
+            
+
+
+            
+            
