@@ -14,7 +14,7 @@ class Student:
     def mobile(self):
         return self._mobile
     
-    @setters
+    @property
     def set_name(self,name):
         if not course or not name.strip():
             raise ValueError("Name cannot be null")
@@ -41,9 +41,9 @@ class Student:
                     (self._name, self._course, self._mobile)
                 )
                 conn.commit()
-                expect Expection as e:
+            except Exception as e:
                     raise RuntimeError(f"Error: {e}")
-                finally:
+            finally:
                     conn.close()
 
 #  reads
@@ -54,7 +54,7 @@ class Student:
             cursor.execute("SELECT * FROM students")
             rows = cursor.fetchall()
             return rows
-        expect Expection as e:
+        except Exception as e:
             raise RuntimeError(f"Error: {e}")
         finally:
             conn.close()
@@ -72,10 +72,15 @@ class Student:
                 "UPDATE students SET name=?, course=?, mobile=? WHERE id=?",
                 (name, course, mobile, student_id)
             )
-             if cursor.rowcount == 0:
-                raise ValueError(f"Error {e}")
+
+            if cursor.rowcount == 0:
+                raise ValueError("No student found with that ID")
+
+            # if cursor.rowcount == 0:
+            #   raise ValueError("No student found with that ID")
+
             conn.commit()
-        expect Expection as e:
+        except Exception as e:
             raise RuntimeError(f"Error: {e}")
         finally:
             conn.close()
@@ -91,10 +96,11 @@ class Student:
                 "DELETE FROM students WHERE id=?",
                 (student_id)
             )
-             if cursor.rowcount == 0:
+
+            if cursor.rowcount == 0:
                 raise ValueError("No student found")
             conn.commit()
-        expect Expection as e:
+        except Exception as e:
             raise RuntimeError(f"Error: {e}")
         finally:
             conn.close()

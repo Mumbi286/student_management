@@ -22,7 +22,7 @@ def add(name, course,mobile):
         s.set_mobile(input("Mobile: "))
         s.save()
         print("Added Successfully!")
-     except Expection as e:
+     except Exception as e:
        click.echo(f"Error: {e}")
 
 # view students 
@@ -38,12 +38,12 @@ def view():
         click.echo("ID | Name | Course | Mobile")
         for r in rows:
             click.echo(f"{r[0]} | {r[1]} | {r[2]} |{r[3]}")
-        except Expection as e:
+    except Exception as e:
             click.echo(f"Error: {e}")
 
 #update student   
 @cli.command()
-@click.option("--id", propmt = "Student ID")
+@click.option("--id", prompt = "Student ID")
 @click.option("--name", prompt="New Name")
 @click.option("--course", prompt="New Course")
 @click.option("--mobile", prompt="New Mobile") 
@@ -51,9 +51,9 @@ def update(id, name, course, mobile):
     """Update student details"""
     try:
        student_id = input("Student Updated: ")
-        click.echo("Updated Successful!")
+       click.echo("Updated Successful!")
 
-    expect Expection as e:
+    except Exception as e:
         click.echo(f"Error: {e}")
 
 # DELETE STUDENT
@@ -67,7 +67,7 @@ def delete(id):
     except Expection as e:
         click.echo(f"Error: {e}")
 
-if __name__ ="__main__":
+if __name__ == "__main__":
     cli()
 
             
