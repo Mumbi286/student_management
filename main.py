@@ -16,7 +16,7 @@ def cli():
 
 def add(name, course,mobile):
      try:
-        s = Student()
+        s = Student(name, course, mobile)
         s.set_name(input("Name: "))
         s.set_course(input("Course: "))
         s.set_mobile(input("Mobile: "))
@@ -64,7 +64,7 @@ def delete(id):
     try:
         student.delete(id)
         click.echo("Deleted succeful!")
-    except Expection as e:
+    except Exception as e:
         click.echo(f"Error: {e}")
 
 if __name__ == "__main__":
